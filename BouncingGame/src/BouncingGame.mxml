@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+                       xmlns:s="library://ns.adobe.com/flex/spark" 
+                       xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="com.myflex.bouncinggame.components.*"
+                       skinClass="com.myflex.bouncinggame.skins.BouncingGameSkin" width="800" height="450" >
+    <fx:Style source="commons/BouncingGame.css"/>
+    <fx:Script source="BouncingGame.as"/>
+    <s:layout>
+        <s:VerticalLayout horizontalAlign="center" verticalAlign="middle"/>
+    </s:layout>
+    
+    <s:states>        
+        <s:State name="loginState"/>
+        <s:State name="adminState"/>
+        <s:State name="gameState"/>
+    </s:states>
+    
+    <!--Login State--> 
+    <components:LoginForm includeIn="loginState" id="login" clicked="logIn(),currentState=state"/>
+    <!--end Login State-->
+    
+    <!--Game State-->
+    <components:Game includeIn="gameState" width="686" height="347" styleName="game" id="game" logoutClicked="currentState='loginState'"/>
+    <!--end Game State-->
+    
+    <!--Admin State-->
+    <components:Admin includeIn="adminState" id="admin" logoutClicked="currentState='loginState'"/>
+    <!--End of Admin State-->
+    
+</s:WindowedApplication>

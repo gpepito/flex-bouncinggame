@@ -1,0 +1,9 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+.game{
+    borderColor:#8194aa;
+    borderStyle:solid;
+    
+}

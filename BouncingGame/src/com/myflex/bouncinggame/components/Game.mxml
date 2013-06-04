@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+         xmlns:s="library://ns.adobe.com/flex/spark" 
+         xmlns:mx="library://ns.adobe.com/flex/mx" 
+         xmlns:objects="com.myflex.bouncinggame.objects.*"
+         width="100%" height="100%"
+         creationComplete="init()" >
+    <fx:Metadata>
+        [Event(name="logoutClicked", type="flash.events.Event")]
+    </fx:Metadata>
+    <s:layout>
+        <s:VerticalLayout verticalAlign="middle" horizontalAlign="center"/>
+    </s:layout>
+
+    <fx:Script>
+        <![CDATA[
+            import mx.events.FlexEvent;
+            public var velocityX:Number = 20;
+            public var velocityY:Number = 20;
+            public var padding:Number = 10;
+            [Embed(source="/../../sounds/click.mp3")]
+            [Bindable]
+            private var sounds:Class;
+            private var clicking:Sound = new sounds() as Sound;
+            private function start(e:Event):void{
+                ball.x += velocityX;
+                ball.y += velocityY;
+                var limitLeft:Number = padding;
+                var limitRight:Number = border.width - ball.width - padding;
+                var limitTop:Number = padding;
+                var limitBottom:Number = border.height - ball.height - padding;
+                
+                if (ball.x <= limitLeft) {
+                    velocityX = Math.abs(velocityX);
+                    
+                }else if (ball.x >= limitRight){
+                    velocityX = -Math.abs(velocityX);
+                }
+                
+                if (ball.y <= limitTop) {
+                    velocityY = Math.abs(velocityY);
+                    
+                }else if (ball.y >= limitBottom){
+                    velocityY = -Math.abs(velocityY);
+                }
+            }
+            private function playSound(e:Event):void{
+                trace("play click.mp3");
+                clicking.play();
+            }
+            protected function init():void
+            {
+                border.addEventListener(MouseEvent.CLICK,playSound);
+                ball.addEventListener(Event.ENTER_FRAME,start);
+                ball.addEventListener(MouseEvent.DOUBLE_CLICK,resume);
+                ball.addEventListener(MouseEvent.CLICK,stop);
+            }
+            private function resume(event:MouseEvent):void{
+                ball.caught=false;
+                ball.addEventListener(Event.ENTER_FRAME,start); 
+                trace("resume bounce");
+            }
+            protected function stop(event:MouseEvent):void
+            {
+                trace("caught");
+                ball.caught=true;
+                ball.removeEventListener(Event.ENTER_FRAME,start);
+            }
+            protected function ball_caughtHandler(event:Event):void
+            {
+                trace("caught_handler!!");
+            }
+        ]]>
+    </fx:Script>
+    <s:Button label="Logout" click="dispatchEvent(new Event('logoutClicked'))"/>
+    <s:BorderContainer id="border" width="90%" height="90%" backgroundAlpha="0.4">
+        <objects:Ball id="ball" doubleClickEnabled="true"  caught="ball_caughtHandler(event)"/>
+    </s:BorderContainer>
+</s:Group>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+         xmlns:s="library://ns.adobe.com/flex/spark" 
+         xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%"
+         xmlns:component="com.myflex.bouncinggame.renderer.*"
+         creationComplete="populateData()">
+    
+    <fx:Script source="/../../../../actionscript/Admin.as"/> 
+    
+    <fx:Metadata>
+        [Event(name="logoutClicked", type="flash.events.Event")]
+    </fx:Metadata> 
+    
+    <fx:Declarations>        
+        <s:VerticalLayout horizontalAlign="center" verticalAlign="middle"/>
+        <fx:XML id="bookXML" source="xmlData/Books.xml"/>
+        <s:XMLListCollection id="xmlBookList" source="{bookXML.List.book}" />        
+    </fx:Declarations>      
+    
+    <s:HGroup x="431" y="17" width="254" height="33" verticalAlign="middle" >    
+        <s:Label text="Search" width="35%"/>
+        <s:TextInput width="60%" paddingRight="5"/>
+    </s:HGroup> 
+    
+    <mx:LinkButton x="629" y="344" label="Logout" click="dispatchEvent(new Event('logoutClicked'))"
+                   focusColor="#94DAE9" rollOverColor="#6CCED2" selectionColor="#98EBE8"/>
+    <mx:AdvancedDataGrid dataProvider="{dataContent}" styleFunction="setDataContentStyle" x="15" y="42" width="402" height="143"
+                         allowMultipleSelection="true" allowDragSelection="true" editable="true">
+        <mx:columns>
+            <mx:AdvancedDataGridColumn dataField="fname" headerText="First Name" />
+            <mx:AdvancedDataGridColumn dataField="lname" headerText="Last Name"/>
+            <mx:AdvancedDataGridColumn dataField="email" headerText="Email" />
+            <mx:AdvancedDataGridColumn dataField="user_type_id" headerText="User Type"/>
+        </mx:columns>
+    </mx:AdvancedDataGrid>
+    
+    <mx:AdvancedDataGrid x="15" y="193" width="597" allowDragSelection="true"
+                         allowMultipleSelection="true" dataProvider="{xmlBookList}" editable="true">        
+        <mx:columns>
+            <mx:AdvancedDataGridColumn dataField="@genre" headerText="Genre" itemEditor="mx.controls.NumericStepper" editorDataField="value"/>
+            <mx:AdvancedDataGridColumn dataField="@type" headerText="Type"/>
+            <mx:AdvancedDataGridColumn dataField="@name" headerText="Book Name"/>
+        </mx:columns>
+    </mx:AdvancedDataGrid>
+</s:Group>

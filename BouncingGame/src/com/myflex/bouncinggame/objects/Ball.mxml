@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         width="100" height="100">
+    <fx:Metadata>
+        [Event(name="caught", type="flash.events.Event")]
+    </fx:Metadata>
+    <fx:Declarations>
+        <s:Bounce id="bouncing" />
+        <s:Rotate id="rotate" target="{image}"  
+                  angleBy="360" 
+                  duration="2000" 
+                  autoCenterTransform="true" 
+                  easer="{bouncing}"/>
+    </fx:Declarations>
+    <fx:Script>
+        <![CDATA[
+            import spark.components.Image;
+            private var _caught:Boolean=false;
+            [Embed(source="/../../images/distorted.png")]
+            [Bindable]
+            private var _image:Class;
+            [Embed(source="/../../sounds/sound.mp3")]
+            [Bindable]
+            private var _sound:Class;
+            private var smallSound:Sound = new _sound() as Sound;
+            public function get caught():Boolean
+            {
+                return _caught;
+            }
+            
+            public function set caught(value:Boolean):void
+            {   
+                //if caught change color
+                if(value){
+                    ellipse.visible=false;
+                    image.visible=true;
+                    smallSound.play();
+                    rotate.play();
+                    dispatchEvent(new Event("caught"));
+                }else{
+                    rotate.stop();
+                    image.visible=false;
+                    ellipse.visible=true;
+                }
+                _caught = value;
+            }
+        ]]>
+    </fx:Script>
+    <s:layout>
+        <s:VerticalLayout horizontalAlign="center" verticalAlign="middle"/>
+    </s:layout>
+    <s:BorderContainer backgroundAlpha="0" id="borderball" 
+                       borderVisible="false" width="100%" height="100%" >
+        <s:Image source="{_image}" width="100%" height="100%" id="image"/>
+        <s:Ellipse width="100%" height="100%" id="ellipse">
+            <s:fill>
+                <s:SolidColor color="0xec5c4d" alpha="1.0"/>
+            </s:fill>
+        </s:Ellipse>
+    </s:BorderContainer>
+</s:Group>
